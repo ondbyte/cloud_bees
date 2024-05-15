@@ -27,6 +27,19 @@ service BlogService {
 
     // Delete a blog post by its ID
     rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+
+    // Get all blog posts
+    rpc GetAllPosts(GetAllPostsReq) returns (GetAllPostsResponse);
+}
+
+
+message GetAllPostsReq {
+    
+}
+
+message GetAllPostsResponse {
+    repeated Post post = 1;
+    string error_message = 2;
 }
 
 message CreatePostRequest {

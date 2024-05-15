@@ -19,10 +19,11 @@ func Start(port uint) error {
 	}
 	client := blog.NewBlogServiceClient(cc)
 	methods := map[string]func(client blog.BlogServiceClient){
-		"create-post": createPost,
-		"read-post":   readPost,
-		"update-post": updatePost,
-		"delete-post": deletePost,
+		"create-post":   createPost,
+		"read-post":     readPost,
+		"update-post":   updatePost,
+		"delete-post":   deletePost,
+		"get-all-posts": getAllPosts,
 	}
 	availableMethods := []string{}
 	for k, _ := range methods {
@@ -97,7 +98,7 @@ func updatePost(client blog.BlogServiceClient) {
 		})
 		log.Fatalln("post data is required, for example: ", string(ex))
 	}
-	
+
 	res, err := client.UpdatePost(context.TODO(), req)
 	if err != nil {
 		log.Fatalln(err)
@@ -146,6 +147,15 @@ func deletePost(client blog.BlogServiceClient) {
 		PostId: id,
 	}
 	res, err := client.DeletePost(context.TODO(), req)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Println("got response ", res.String())
+}
+
+func getAllPosts(client blog.BlogServiceClient) {
+	req := &blog.GetAllPostsReq{}
+	res, err := client.GetAllPosts(context.TODO(), req)
 	if err != nil {
 		log.Fatalln(err)
 	}

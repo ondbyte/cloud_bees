@@ -93,3 +93,13 @@ func (b *blogServiceServer) UpdatePost(ctx context.Context, req *blog.UpdatePost
 		Post: b.posts[post.PostId],
 	}, nil
 }
+
+func (b *blogServiceServer) GetAllPosts(ctx context.Context, req *blog.GetAllPostsReq) (*blog.GetAllPostsResponse, error) {
+	allPosts := []*blog.Post{}
+	for _, p := range b.posts {
+		allPosts = append(allPosts, p)
+	}
+	return &blog.GetAllPostsResponse{
+		Post: allPosts,
+	}, nil
+}
